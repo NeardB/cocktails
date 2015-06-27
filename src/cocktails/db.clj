@@ -10,9 +10,19 @@
 
 
 
-;; (defn list-cocktails
-;;   "Returns a list of all the users from the database"
-;;   []
-;;   (let [results (sql/query db
-;;       ["select * from test LIMIT 1000"])]
-;;     results))
+(defn list-cocktails
+  "Returns a 20 best rated recepies from the database"
+  []
+  (let [results (sql/query db
+      ["SELECT * FROM `cocktails` order by rating desc LIMIT 20"])]
+    results))
+
+
+
+
+
+
+(defn select-specific-cocktail
+  "Returns records related to the input ingrediant"
+  [ingredient]
+  (sql/query db [(str "SELECT * FROM `cocktails` WHERE `ingredient` = '" ingredient "'")]))

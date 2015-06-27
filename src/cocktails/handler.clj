@@ -12,18 +12,18 @@
   (GET "/"
        []
        (views/home-page))
-  ;;(GET "/all-cocktails"
-    ;;   []
-  ;;     (views/all-cocktails-page))
+  (GET "/all-cocktails"
+      []
+      (views/all-cocktails-page))
   ;;(GET "/similar-recipes"
     ;;   []
       ;; (views/similar-recipes-page))
 
 
 
-;;   (GET "/search-recipes"
-;;       []
-;;       (views/search-recipes-page))
+  (GET "/search-recipes"
+      []
+      (views/search-recipes-page))
   (GET "/login"
        []
        (views/login-page))
