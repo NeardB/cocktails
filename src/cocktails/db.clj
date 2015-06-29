@@ -10,9 +10,35 @@
 
 
 
-;; (defn list-cocktails
-;;   "Returns a list of all the users from the database"
-;;   []
-;;   (let [results (sql/query db
-;;       ["select * from test LIMIT 1000"])]
-;;     results))
+(defn list-cocktails
+  "Returns a 20 best rated recepies from the database"
+  []
+  (let [results (sql/query db
+      ["SELECT * FROM `cocktails` order by rating desc LIMIT 20"])]
+    results))
+
+
+
+(defn list-ingredient
+  "Returns 10 ingredients best rated recepies from the database"
+  []
+  (let [results (sql/query db
+      ["SELECT `ingredient` FROM `cocktails` WHERE `rating`= 10 LIMIT 10"])]
+    results))
+
+
+(defn select-specific-cocktail
+  "Returns records related to the input ingrediant"
+  [ingredient]
+  (sql/query db [(str "SELECT * FROM `cocktails` WHERE `ingredient` = '" ingredient "'")]))
+
+
+;; (defn recommended-songs-HTML
+;;   [songList]
+;;   (hic-p/html5
+;;     [:h2 "Recommended songs"]
+;;      [:table {:class "table"}
+;;       [:tr [:th "song"] [:th "score"]]
+;;       (for [item songList]
+;;        [:tr [:td (:idsong item)] [:td (:score item)]])]
+;;   ))
