@@ -11,9 +11,13 @@ body {
 
 }
 
+<<<<<<< HEAD
 .cocktails{
   margin-top:40px;
 }
+=======
+
+>>>>>>> 4ca4e4a4ad005607584a35f02d35c05c8cc0e7af
 
 #btn-login, #btn-register{
   width: 70%;
@@ -28,6 +32,7 @@ body {
   margin-top: 20px;
 }
 
+<<<<<<< HEAD
 #combobox{
  margin:100px;
 
@@ -37,6 +42,8 @@ body {
   margin-left:20px;
 }
 
+=======
+>>>>>>> 4ca4e4a4ad005607584a35f02d35c05c8cc0e7af
 .login{
   width: 400px;
   height:100%;

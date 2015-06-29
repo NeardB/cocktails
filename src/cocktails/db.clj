@@ -19,18 +19,23 @@
 
 
 
+<<<<<<< HEAD
 (defn list-ingredient
   "Returns 10 ingredients best rated recepies from the database"
   []
   (let [results (sql/query db
       ["SELECT `ingredient` FROM `cocktails` WHERE `rating`= 10 LIMIT 10"])]
     results))
+=======
+
+>>>>>>> 4ca4e4a4ad005607584a35f02d35c05c8cc0e7af
 
 
 (defn select-specific-cocktail
   "Returns records related to the input ingrediant"
   [ingredient]
   (sql/query db [(str "SELECT * FROM `cocktails` WHERE `ingredient` = '" ingredient "'")]))
+<<<<<<< HEAD
 
 
 ;; (defn recommended-songs-HTML
@@ -42,3 +47,5 @@
 ;;       (for [item songList]
 ;;        [:tr [:td (:idsong item)] [:td (:score item)]])]
 ;;   ))
+=======
+>>>>>>> 4ca4e4a4ad005607584a35f02d35c05c8cc0e7af
