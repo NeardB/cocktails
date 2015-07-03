@@ -1,12 +1,10 @@
 (ns cocktails.handler
-  (:require [compojure.core :refer :all ]
+  (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [compojure.handler :as handler]
            ;; [cocktails.db as db]
             [cocktails.views :as views]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]))
-
-
 
 (defroutes app-routes
   (GET "/"
