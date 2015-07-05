@@ -15,19 +15,32 @@ body {
   margin-top:40px;
 }
 
+.containerTable{
+
+ padding-top: 80px;
+  background-color: initial;
+  width:80%;
+  margin-left:30px;
+}
 
 #btn-login, #btn-register{
   width: 70%;
   height:70%;
+   margin-top: 20px;
 }
 
 .btn-md{
   padding: 5px;
   display: inline-block;}
 
-#btn-register{
+#register{
   margin-top: 20px;
+  width: 30%;
+  margin-left: 40%;
+  margin-right: 40%
 }
+#pass{
+margin-top: 20px}
 
 
 #combobox{

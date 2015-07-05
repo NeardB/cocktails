@@ -29,3 +29,7 @@
   "Returns records related to the input ingrediant"
   [ingredient]
   (sql/query db [(str "SELECT * FROM `cocktails` WHERE `ingredient` = '" ingredient "'")]))
+
+
+
+

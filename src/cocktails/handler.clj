@@ -13,20 +13,42 @@
   (GET "/all-cocktails"
       []
       (views/all-cocktails-page))
-  ;;(GET "/similar-recipes"
-    ;;   []
-      ;; (views/similar-recipes-page))
-
-
-
+  (POST "/ajaxcall"
+        {params :params}
+        (views/cocktails-ingridiant-list params))
   (GET "/search-recipes"
       []
       (views/search-recipes-page))
   (GET "/login"
        []
        (views/login-page))
+   (GET "/register"
+       []
+       (views/register-page))
   (route/resources "/")
   (route/not-found "Not Found"))
 
-(def app
+  (def app
   (wrap-defaults app-routes site-defaults))
+
+
+  ;;(GET "/similar-recipes"
+    ;;   []
+      ;; (views/similar-recipes-page))
+
+;;  (GET "/loginBojana"
+;;       []
+;;       (views/loginBojana)
+;;       )
+
+;;   (GET "/admin" []
+;;        (if (= "admin" (session/get :user))
+;;        (admin-page)
+;;        (redirect "/login")))
+;;  ;; (POST "/admin" [title subtitle content] (add-blog title subtitle content))
+;;   (GET "/logout" [] (logout))
+
+
+;;   (defn logout []
+;;   (session/clear!)
+;;   (redirect "/"))
