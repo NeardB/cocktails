@@ -33,3 +33,7 @@
 
 
 
+(defn insert-record
+  "insert function"
+  [Username pass]
+  (sql/query db [(str "INSERT INTO user (username, pass) VALUES ('" Username "','" pass "')")]));

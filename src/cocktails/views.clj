@@ -5,13 +5,12 @@
             [hiccup.page :as hic-p]
           ;;  [clojure.data.json :as json]
             [net.cgrand.enlive-html :as html]
-
-
+           ;; [hiccup.form :as f]
+            [ring.util.anti-forgery]
 
           ))
 
-
-
+(use 'ring.util.anti-forgery)
 
 
 (defn gen-page-head
@@ -25,8 +24,7 @@
    (hic-p/include-css "bootstrap/css/bootstrap.min.css")
    (hic-p/include-js "bootstrap/js/bootstrap.min.js")
    (hic-p/include-js "/ajax.js")
-;;(hic-p/include-js "/validateEmail.js")
-   ])
+   (hic-p/include-js "/test.js")])
 
 
 
@@ -45,8 +43,8 @@
     [:ul {:class "nav navbar-nav"}
      [:li [:a {:href "/"} "Home"]]
      [:li [:a {:href "/all-cocktails"} "Top 20 recipes "]]
-     [:li [:a {:href "/similar-recipes"} "Recommended recipes "]]
-     [:li [:a {:href "/search-recipes"} "Search recipes "]]
+     [:li [:a {:href "/similar-recipes"} "Recommend "]]
+     [:li [:a {:href "/search-recipes"} "Search "]]
      [:li [:a {:href "/login"} "Log in "]]
      [:li [:a {:href "/register"} "Register "]]]]]])
 
@@ -90,36 +88,6 @@
 
 
 
-
-
-;;       <label class="control-label" for="inputEmail">Email</label>
-;;     <div class="controls">
-;;       <input type="text" id="inputEmail" placeholder="Email">
-;;     </div>
-;;      <div class="control-group">
-;;     <div class="controls">
-;;       <label class="checkbox">
-;;         <input type="checkbox"> Remember me
-;;       </label>
-;;       <button type="submit" class="btn">Sign in</button>
-;;     </div>
-
-
-
-
-
-
-;;     <div class="control-group">
-;;   <label class="control-label" for="inputIcon">Email address</label>
-;;   <div class="controls">
-;;     <div class="input-prepend">
-;;       <span class="add-on"><i class="icon-envelope"></i></span>
-;;       <input class="span2" id="inputIcon" type="text">
-;;     </div>
-;;   </div>
-
-
-
 (defn register-page
   "Function which generates register-page"
   []
@@ -130,33 +98,13 @@
    [:div {:class "register"}
 
 
-
-     [:form {:id "Username" :class "form-horizontal"}
-     [:label {:class "col-xs-3  control-label"} "Username" ]
-[:div {:class "col-xs-7"}
- [:input {:type "text" :class "form-control" :name "email" :placeholder "Username"}
-  [:i {:class "glyphicon glyphicon-user form-control-feedback"}]]
- ]]
-
-     [:form {:id "regexpEmailForm" :class "form-horizontal"}
-     [:label {:class "col-xs-3  control-label"} "Email" ]
-[:div {:class "col-xs-7"}
- [:input {:type "text" :class "form-control" :name "email" :placeholder "example@domain.com"}]
- [:i {:class "glyphicon glyphicon-envelope form-control-feedback"}]]]
+[:form {:action "/register-user" :method "POST"}
+    [:input {:type "text" :class "form-control" :name "email" :placeholder "Username"}]
+     [:input {:type "text" :class "form-control"  :placeholder "Password"}]
 
 
-    [:form {:id "pass" :class "form-horizontal "}
-     [:label {:class "col-xs-3  control-label"} "Password" ]
-    [:div {:class "col-xs-7"}
-     [:input {:type "password" :class "form-control"  :placeholder "Password"}]
-     [:i {:class "glyphicon glyphicon-lock form-control-feedback "}]]]
-
-
-     [:br]
-     [:span]
-    [:form {:action "/"}
-     [:input  {:type "submit" :class "btn btn-primary btn-md " :value  "Register" :id "register"} ]]]]))
-
+     [:input  {:type "submit" :class "btn btn-primary btn-md " :value  "Register" :id "register"} ]]
+    ]]))
 
 
 (defn all-cocktails-page
@@ -192,58 +140,17 @@
      [:li {:class "divider"}]
      [:li [:a {:href "#"} [:span {:class "glyphicon glyphicon-star"}] "Other"]]]]
 
-
-;; [:a {:class "btn btn-info btn-md " :id "search" :href "/ajaxcall"}  [:span {:class "glyphicon glyphicon-search"}] " Search"]
-
-
  [:form { :method "POST"  :action "/ajaxcall" :class "form"}
      [:input  {:type "submit" :class "btn btn-info btn-md " :value  "Search" :id "search"}
       [:span {:class "glyphicon glyphicon-search"}]]]]
 
-    (hic-p/include-js "/ajax.js")
-     [:div {:id "div1"} [:div {:id "loaderdiv" :class "windows8" :style "display: none;"}]]
-   (hic-p/include-js "/ajaxx.js"))))
+        (hic-p/include-js "/ajax.js")
+         [:div {:id "div1"} [:div {:id "loaderdiv" :class "windows8" :style "display: none;"}]]
+         (hic-p/include-js "/ajaxx.js"))))
 
 
 
-
-;;  (defn select-user-page
-;;   "Generates the single user page view"
-;;   []
-;;   (hic-p/html5
-;;    (gen-page-head "Select a USER")
-;;    navbar
-;;    [:div {:class "container"}
-;;    [:h1 "Select a User"]
-;;    [:form {:action "/add-user" :method "POST" :class "form"}
-;;     [:div {:class "form-group"}
-;;     [:label "UserID: " ][:input {:type "text" :id "iduser" :name "name" :class "form-control"}]]
-;;     [:p [:div {:class "btn btn-lg btn-success" :id "submituser"} "Submit User"]]]
-;;     [:div {:id "div1"} [:div {:id "loaderdiv" :class "windows8" :style "display: none;"}
-;;                         [:div {:class "wBall" :id "wBall_1"}
-;;                          [:div {:class "wInnerBall"}]]
-
-;;                         [:div {:class "wBall" :id "wBall_2"}
-;;                          [:div {:class "wInnerBall"}]]
-
-;;                         [:div {:class "wBall" :id "wBall_3"}
-;;                          [:div {:class "wInnerBall"}]]
-
-;;                         [:div {:class "wBall" :id "wBall_4"}
-;;                          [:div {:class "wInnerBall"}]]
-
-;;                         [:div {:class "wBall" :id "wBall_5"}
-;;                          [:div {:class "wInnerBall"}]]
-;;                         ]]]
-;;     (hic-p/include-js "/ajax.js")))
-
-
-
-
-
-
-
-
+;; list-HTML i cocktails-ingridiant-list nisu jos uvek lepo integrissane. Treba da prikazuju rez nakon odabira sastojka iz comboboxa
  (defn list-HTML
   [ingredient]
   (hic-p/html5
@@ -259,16 +166,18 @@
 (defn cocktails-ingridiant-list
   "Returns an HTML table"
   [ingredient]
-  (let [results (db/select-specific-cocktail (ingredient :ingredient))
-      ;;my-list (time (db/list-similar-users (ingredient :ingredient)))
-        ;;data (time (db/recommended-recordset my-list))
-        ]
+  (let [results (db/select-specific-cocktail (ingredient :ingredient))]
     (str
-     (time (list-HTML results))
-
-     )))
+     (time (list-HTML results)))))
 
 
 
 
-
+(defn register-user
+  "Add new user to database"
+  [params]
+  (let [results
+                  (db/insert-record :users
+                                     {:UserName (:UserName params) :Pass (:Pass params)})]
+    (assert (= (count results) 1))
+    (first (vals results))))
