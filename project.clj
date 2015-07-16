@@ -12,6 +12,7 @@
                  [enlive "1.1.5"]
                  [org.clojure/java.jdbc "0.3.6"]
                  [mysql/mysql-connector-java "5.1.6"]
+                 [org.xerial/sqlite-jdbc "3.7.2"]
                  [ring/ring-anti-forgery "1.0.0"]
 
                  ]

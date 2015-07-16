@@ -6,7 +6,7 @@
           ;;  [clojure.data.json :as json]
             [net.cgrand.enlive-html :as html]
            ;; [hiccup.form :as f]
-            [ring.util.anti-forgery]
+          ;;  [ring.util.anti-forgery]
 
           ))
 
@@ -79,10 +79,10 @@
      [:div {:class "form-group has-feedback"}
      [:input {:type "password" :class "form-control" :placeholder "Password"}]
      [:i {:class "glyphicon glyphicon-lock form-control-feedback "}]]
-     [:form {:action "/"}
+     [:form {:action "/check-user-login" :method "POST"}
      [:input  {:type "submit" :class "btn-success btn-md " :value  "Login" :id "btn-login"} ]]
    ;;  [:button  {:type "button" :class "btn-success btn-md" :method="post" :enctype="/" :id "btn-login"}  "Login"]
-     [:form {:action "/all-cocktails"}
+     [:form {:action "/register " }
      [:input  {:type "submit" :class "btn btn-primary btn-md " :value  "Register" :id "btn-register"} ]]]]))
 
 
@@ -154,12 +154,17 @@
  (defn list-HTML
   [ingredient]
   (hic-p/html5
-   [:h2 "Songs listened to by the user"]
-   [:table {:class "table"}
+   navbar
+    (gen-page-head "Searched recepies")
+   [:div {:class "tabela2"}
+   [:h2 "Cocktails with selected ingrediant"]
+   [:table {:class "table" }
     [:tr [:th "name"] [:th "rating"] [:th "votes"] [:th "ingredient"]]
     (for [l ingredient]
       [:tr [:td (:name l)] [:td (:rating l)] [:td (:votes l)] [:td (:ingredient l)]])]
-   [:br]))
+   [:br]]))
+
+
 
 
 
@@ -181,3 +186,9 @@
                                      {:UserName (:UserName params) :Pass (:Pass params)})]
     (assert (= (count results) 1))
     (first (vals results))))
+
+
+(defn check-user-login
+  "Checks if user with that UserName and Pass exist in database"
+  [params]
+ (let [results (db/select-specific-user :users {:UserName (:UserName params) :Pass (:Pass params)})]))

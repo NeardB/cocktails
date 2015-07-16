@@ -5,8 +5,8 @@
            ;; [cocktails.db as db]
             [cocktails.views :as views]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
-            [ring.middleware.anti-forgery]
-            [ring.middleware.session]
+;;             [ring.middleware.anti-forgery]
+;;             [ring.middleware.session]
             ))
 
 ;; (use 'ring.middleware.anti-forgery
@@ -45,6 +45,10 @@
        {params :params}
        (views/register-user params))
 
+   (POST "/check-user-login"
+       {params :params}
+       (views/check-user-login params))
+
   (route/resources "/")
   (route/not-found "Not Found"))
 
@@ -57,6 +61,6 @@
 ;;       ))
 
   (def app
-  (wrap-defaults app-routes site-defaults))
+  (wrap-defaults app-routes nil))
 
 
