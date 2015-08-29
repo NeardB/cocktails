@@ -1,20 +1,20 @@
-(ns blog.routes.addNew
+(ns cocktails.routes.addNew
   (:require [compojure.core :refer :all]
-            [blog.views.layout :as layout]
+            [cocktails.views.layout :as layout]
             [hiccup.form :refer :all]
-            [blog.models.db :as db]
+            [cocktails.models.db :as db]
             [noir.session :as session]
-            [blog.routes.helper :as helper]
+            [cocktails.routes.helper :as helper]
             ;;validacija
             [noir.validation :refer [rule errors? has-value? on-error]]
             ;;redirect
             [noir.response :refer [redirect]]))
 
 
-(defn addNew-page [& [success]]
+(defn addNew [& [success]]
   (layout/common
-   (navbar)
-   (helper/header "Admin Panel" "Add your awesome Blog" "img/bg.jpg")
+   (helper/navbar)
+    (helper/header "About " "This is what I do" "img/a.jpg")
    [:div.container
     [:div.row
      [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
@@ -37,7 +37,7 @@
        [:div#success]
        [:div.row
         [:div.form-group.col-xs-12.floating-label-form-group.controls
-         [:button.btn.btn-default.submit "Add new user!"]]]
+         [:button.btn.btn-default.submit.add "Add new user!"]]]
        ]
 
       ]
@@ -47,13 +47,37 @@
    ))
 
 
+;; (defn addNew []
+;;   (layout/common
+;;     (helper/navbar)
+;;     (helper/header "About " "This is what I do" "img/a.jpg")
+;;   ;;main
+;;   [:div.container
+;;     [:div.row
+;;      [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
+;;       (helper/about-content)]]]
+
+;;     [:footer
+;;      [:div.container
+;;       [:div.row
+;;        [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
+;;         [:ul.list-inline.text-center
+;;          (helper/social-button)]
+;;         [:p.copyright.text-muted "Copyright &copy; www.cocktails.bojana"]]]]]
+;;      )
+
+;;     )
+
 (defn add-new-user [UserName Pass]
   (db/save-user UserName Pass)
-  (addNew-page "You added new user!")
+  (addNew "You added new user!")
   )
 
 (defroutes addNew-routes
   (GET "/addNew" []
 
-       (addNew-page))
-  (POST "/addNew" [UserName  Pass] (add-new-user UserName Pass))
+      ;; (addNew-page)
+       (addNew)
+       )
+ ;; (POST "/addNew" [UserName  Pass] (add-new-user UserName Pass))
+  )

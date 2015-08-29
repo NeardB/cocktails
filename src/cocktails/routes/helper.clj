@@ -21,7 +21,9 @@
       [:li [:a {:href "/"} "Home"]]
       [:li [:a {:href "/top20"} "Top 20 cocktails"]]
       [:li [:a {:href "/about"} "Search"]]
+      [:li [:a {:href "/addNew"} "Add cocktail"]]
       [:li [:a {:href "/contact"} "Contact"]]
+     ;; [:li [:a {:href "/addNew-page"} "Add"]]
       [:li [:a {:href "/login"} "Login"]]]]
     ]
 
@@ -67,7 +69,7 @@
    [:ul {:class "social-network social-circle"}
     [:li [:a {:href "" :class "icoRss link" :title "Rss"}
           [:i {:class "fa fa-rss"}]]]
-    [:li [:a {:href "" :class "icoFacebook link" :title "Facebook"}
+    [:li [:a {:href "https://www.facebook.com/bojana.rakic.16" :class "icoFacebook link" :title "Facebook"}
           [:i {:class "fa fa-facebook"}]]]
     [:li [:a {:href "" :class "icoTwitter link" :title "Twitter"}
           [:i {:class "fa fa-twitter"}]]]

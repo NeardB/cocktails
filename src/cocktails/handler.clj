@@ -10,6 +10,10 @@
             [cocktails.routes.about :refer [about-routes]]
             [cocktails.routes.contact :refer [contact-routes]]
             [cocktails.routes.top20 :refer [top20-routes]]
+            [cocktails.routes.admin :refer [admin-routes]]
+            [cocktails.routes.addNew :refer [addNew-routes]]
+            [cocktails.routes.auth :refer [auth-routes]]
+            ;;[cocktails.routes.addNew :refer [addNew-routes]]
             ;;session
             [noir.session :as session]
             [ring.middleware.session.memory :refer [memory-store]]
@@ -32,6 +36,10 @@
        contact-routes
        home-routes
        top20-routes
+       admin-routes
+    addNew-routes
+    auth-routes
+     ;;  addNew-routes
        app-routes))
     (session/wrap-noir-session
      {:store (memory-store)})

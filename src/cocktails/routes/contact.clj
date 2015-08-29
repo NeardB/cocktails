@@ -11,7 +11,8 @@
 (defn contact []
   (layout/common
     (helper/navbar)
-    (helper/header "Contact Me"  "img/y.jpg")
+    (helper/header "Contact" "Contact Me"  "img/y.jpg")
+
   ;;main
   [:div.container
     [:div.row
