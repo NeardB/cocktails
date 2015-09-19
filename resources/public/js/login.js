@@ -1,10 +1,10 @@
-$(function(){
-
-  $(".add").click(function (){
+ $(function(){
+   $(".login").click(function (){
+      alert("ovde");
     var UserName=$('.UserName').val();
         var Pass= $('.Pass').val();
         $.ajax({
-                    url:"/addNew",
+                    url:"/login",
                     type:"POST",
                     data:{
                       UserName:UserName,
@@ -28,7 +28,4 @@ $(function(){
                     }//end error
               })//end ajax
   })
-
-
-});
-
+   });

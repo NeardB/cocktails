@@ -42,3 +42,22 @@
   "Returns records related to the input ingrediant"
   [ingredient]
   (sql/with-query-results res [(str "SELECT * FROM `cocktails` WHERE `ingredient` = '" ingredient "'")]))
+
+
+(defn login
+  "Function wich checks whether the user exists"
+  [UserName Pass]
+    (sql/with-connection db
+      (sql/with-query-results res
+      ["select count(UserName) as total
+       from users
+       where UserName = ? and Pass = ? " UserName Pass]
+      :result-set-fn first)))
+
+(defn save-cocktail [name ingredient ingredient1 ingredient2 rating text]
+  (sql/with-connection
+    db
+      (sql/insert-values
+      :cocktails
+      [:name :ingredient :ingredient1 :ingredient2 :rating :text ]
+      [ name ingredient ingredient1 ingredient2 rating text])))

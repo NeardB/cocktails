@@ -9,19 +9,18 @@
 (defn navbar []
   (list [:nav.navbar.navbar-default.navbar-custom.navbar-fixed-top
    [:div.container-fluid
-    ;;kada su mobile dimenzije da se napravi ikonica
-    [:div.navbar-header.page-scroll
+     [:div.navbar-header.page-scroll
      [:button.navbar-toggle {:type "button" :data-toggle "collapse" :data-target "#bs-example-navbar-collapse-1"}
-      [:span.sr-only "Toggle navigation"]
-      (take 3 (repeat [:span.icon-bar]))]
+     (take 3 (repeat [:span.icon-bar]))]
      [:a.navbar-brand {:href "http://clojure.org/"} "Clojure"]]
     ;;nav linkovi
     [:div.collapse.navbar-collapse {:id "bs-example-navbar-collapse-1"}
      [:ul.nav.navbar-nav.navbar-right
       [:li [:a {:href "/"} "Home"]]
       [:li [:a {:href "/top20"} "Top 20 cocktails"]]
-      [:li [:a {:href "/about"} "Search"]]
-      [:li [:a {:href "/addNew"} "Add cocktail"]]
+      [:li [:a {:href "/search"} "Search"]]
+     ;; [:li [:a {:href "/addNew"} "Add new user"]]
+       [:li [:a {:href "/addCocktail"} "Add recipe"]]
       [:li [:a {:href "/contact"} "Contact"]]
      ;; [:li [:a {:href "/addNew-page"} "Add"]]
       [:li [:a {:href "/login"} "Login"]]]]
@@ -47,14 +46,14 @@
 (defn home-header []
   [:header {:id "top" :class "header"}
  [:div {:class "text-vertical-center"}
-  [:h1 "Start Bootstrap"]
-  [:h3 {:class "h33"} "Free Bootstrap Themes &amp; Templates"]
-  [:a {:href "/" :class "btn btn-dark btn-lg"} "Find out more"]]])
+  [:h1 "Welcome"]
+  [:h3 {:class "title"} "This is the best aplication to share your drink recipes and browse others recipes"]
+  [:a {:href "/search" :class "btn btn-dark btn-lg"} "Browse!"]]])
 
 
 
-(defn about-content []
- [:div {:id "div"} "Ovde ide neki tekst o stranici"]
+(defn search-content []
+ [:div {:id "div"} "Select ingridient to search for cocktail"]
   )
 
 
