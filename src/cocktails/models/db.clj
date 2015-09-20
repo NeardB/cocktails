@@ -61,3 +61,37 @@
       :cocktails
       [:name :ingredient :ingredient1 :ingredient2 :rating :text ]
       [ name ingredient ingredient1 ingredient2 rating text])))
+
+;; svi korisnici
+(defn users-list
+   "Returns users from the database"
+  []
+    (sql/with-connection
+    db
+    (sql/with-query-results res
+    ["SELECT * FROM `users`"]
+    (doall res))))
+
+;; svi kokteli jednog korisnika
+(defn user-recipes
+  "Returns recipes for specific user"
+  [IdUser]
+  (sql/with-query-results res [(str "select * from recipe WHERE IdUser = '" IdUser "'")]))
+
+;; recepti i ocene odredjenog usera
+(defn user-ratings
+  "Returns user ratings"
+  [IdUser]
+    (sql/with-query-results res
+      ["select IdRecipe, rating from recipe where IdUser = ? " IdUser]))
+
+(defn user-intersection
+  "Function which checks similar recipe for User2 and User1; IdUser1-User2-mutually-recipes"
+  [IdUser1 IdUser2]
+  (sql/with-query-results db [(str "Select * from recipe where IdRecipe
+                        IN (SELECT IdRecipe from recipe where IdUser like '" IdUser1 "') and IdUser2 = '" IdUser2 "'")]))
+
+(defn  union
+  "Unija recepta dva korisnika; tj unija broja recepta"
+  [IdUser1 IdUser2]
+  (sql/with-query-results db[(str "SELECT COUNT(DISTINCT Index) AS some_alias FROM recipe)])
