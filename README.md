@@ -29,6 +29,6 @@ Also, the goal was also to learn how to make systems recommendations application
 
 Bootstrap templates: http://startbootstrap.com/template-categories/all/
 Library for rendering HTML in Clojure: http://weavejester.github.io/hiccup/
-Clojure wrapper for JDBC-based access to databases.: https://github.com/clojure/java.jdbc
+Clojure wrapper for JDBC-based access to databases: https://github.com/clojure/java.jdbc
 
 License
