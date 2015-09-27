@@ -5,11 +5,11 @@ If user wants, he/she can determine which recipes are most similar to his/hers r
 A user who does not register can only look at cocktails with the best rating, or search through base by cocktail ingredient.
 
 
-Requirements
+#Requirements
 
 The application requires Leiningen 2.0.0 or later
 
-Usage
+#Usage
 
 To start application, open command line, and navigate to the application folder.
 Then run 
@@ -19,12 +19,12 @@ The application can then be viewed on http://localhost:3000/
 if the user wants to log into the application he/she should navigate through menu on tab login, 
 or type http://localhost:8080/login in browser address bar.
 
-Goal
+#Goal
 
 The aim of this project was to learn Clojure programming language, which is very different from object -oriented languages. 
 Also, the goal was also to learn how to make systems recommendations application.
 
-References
+#References
 
 Bootstrap templates: http://startbootstrap.com/template-categories/all/
 Library for rendering HTML in Clojure: http://weavejester.github.io/hiccup/
