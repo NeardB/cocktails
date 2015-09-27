@@ -4,7 +4,7 @@
             [hiccup.form :refer :all]
             [cocktails.models.db :as db]
             [noir.session :as session]
-            [cocktails.routes.helper :as helper]
+            [cocktails.routes.shared :as shared]
             ;;validacija
             [noir.validation :refer [rule errors? has-value? on-error]]
             ;;redirect
@@ -13,8 +13,8 @@
 
 (defn addCocktail [& [success]]
   (layout/common
-   (helper/navbar)
-    (helper/header "Add new recipie " "Insert your recepie here!" "img/a.jpg")
+   (shared/navbar)
+    (shared/header "Add new recipie " "Insert your recepie here!" "img/a.jpg")
    [:div.container
     [:div.row
      [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1

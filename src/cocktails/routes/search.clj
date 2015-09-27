@@ -6,19 +6,19 @@
             [hiccup.form :refer :all]
             [noir.session :as session]
             [hiccup.page :as hic-p]
-            [cocktails.routes.helper :as helper]))
+            [cocktails.routes.shared :as shared]))
 
 
 
 (defn search []
   (layout/common
-    (helper/navbar)
-    (helper/header " " "Search" "img/a.jpg")
+    (shared/navbar)
+    (shared/header " " "Search" "img/a.jpg")
 
   [:div.container
     [:div.row
      [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
-      (helper/search-content)
+      (shared/search-content)
 (let [all (db/list-ingredient)]
        [:div {:class "well carousel-search hidden-sm " :id "combobox"}
    [:div {:class "btn-group"} [:a {:class "btn btn-default dropdown-toggle btn-select" :data-toggle "dropdown" :href "#"} "Select ingrediant"
@@ -46,11 +46,11 @@
       [:div.row
        [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
         [:ul.list-inline.text-center
-         (helper/social-button)]
+         (shared/social-button)]
         [:p.copyright.text-muted "Copyright &copy; www.cocktails.bojana"]]]]]
      ))
 
 (defroutes search-routes
   (GET "/search" [] (search))
-   ;; (POST "/search" [ingredient] (select-specific-cocktail ingredient))
+  ;;(POST "/search" [ingredient] (select-specific-cocktail ingredient))
 )

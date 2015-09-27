@@ -2,10 +2,10 @@
   (:require ;;[compojure.core :refer [defroutes GET POST]]
             [compojure.core :refer :all]
             [cocktails.views.layout :as layout]
-            [cocktails.views.layoutH :as layoutH]
+            [cocktails.views.homeLayout :as homeLayout]
             [hiccup.form :refer :all]
          ;;   [noir.session :as session]
-            [cocktails.routes.helper :as helper]
+            [cocktails.routes.shared :as shared]
             [cocktails.models.db :as db]
             [hiccup.page :as hic-p]
             ))
@@ -16,8 +16,8 @@
 
 (defn top20 []
   (layout/common
-    (helper/navbar)
-    (helper/header "Cocktails" "Here are top 20 cocktails" "img/g.jpg")
+    (shared/navbar)
+    (shared/header "Cocktails" "Here are top 20 cocktails" "img/g.jpg")
 
    [:div.container
     [:div.row
@@ -35,7 +35,7 @@
       [:div.row
        [:div.col-lg-8.col-lg-offset-2
         [:ul.text-center
-         (helper/social-button)]
+         (shared/social-button)]
         [:p.copyright "Copyright &copy; www.cocktails.rs"]]]]]
      ))
 
