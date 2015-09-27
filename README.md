@@ -1,3 +1,4 @@
+#Summary
 An application written in Clojure ,using SQLlite database for displaying,inserting data, and for data manipulation.
 This application allows users to  log in  or register themselves.
 When user is logged in, he/she can post his/hers cocktail recipe. 
