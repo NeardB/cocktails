@@ -56,25 +56,75 @@
 
 
 
-;; defn user-recipes
-;;   "Returns recipes for specific user"
-;;   [IdUser]
-;;   (sql/with-query-results res [(str "select * from recipe WHERE IdUser = '" IdUser "'")]))
+(defn user-recipes
+  "Returns recipes for specific user"
+  [IdUser]
+  (sql/query db [(str "select * from recipe WHERE IdUser = '" IdUser "'")]))
 
-;; ;; recepti i ocene odredjenog usera
-;; (defn user-ratings
-;;   "Returns user ratings"
-;;   [IdUser]
-;;     (sql/with-query-results res
-;;       ["select IdRecipe, rating from recipe where IdUser = ? " IdUser]))
+(user-recipes 1)
 
-;; (defn user-intersection
-;;   "Function which checks similar recipe for User2 and User1; IdUser1-User2-mutually-recipes"
-;;   [IdUser1 IdUser2]
-;;   (sql/with-query-results db [(str "Select * from recipe where IdRecipe
-;;                         IN (SELECT IdRecipe from recipe where IdUser like '" IdUser1 "') and IdUser2 = '" IdUser2 "'")]))
 
-;; (defn  union
-;;   "Unija recepta dva korisnika; tj unija broja recepta"
-;;   [IdUser1 IdUser2]
-;;   (sql/with-query-results db[(str "SELECT COUNT(DISTINCT Index) AS some_alias FROM recipe)])
+(defn Id-user-recipes
+  "Returns recipes for specific user"
+  [IdUser]
+  (sql/query db [(str "select IdCocktail from recipe WHERE IdUser = '" IdUser "'")]))
+
+(Id-user-recipes 1)
+
+(defn user-cocktails-ingredient
+   "Returns list of ingredient for certain cocktail"
+  [IdCocktail]
+  (sql/query db [(str "select ingredient,ingredient1,ingredient2,ingredient3, ingredient4 from cocktails WHERE IdCocktail = '" IdCocktail "'")]))
+
+
+(user-cocktails-ingredient 4)
+
+(defn user-cocktails-ingredient1
+   "Returns list of ingredient for all cocktails for certain User"
+  [IdUser]
+  (sql/query db ["select ingredient,ingredient1,ingredient2,ingredient3, ingredient4 from cocktails WHERE IdCocktail in
+                      (select IdCocktail from recipe WHERE IdUser =?) order by Rating desc" IdUser]))
+
+(user-cocktails-ingredient1 1)
+(user-cocktails-ingredient1 2)
+
+
+
+
+
+(defn user-intersection
+  "Function which checks similar recipe for User2 and User1; IdUser1-User2-mutually-recipes"
+  [IdUser1 IdUser2]
+  (sql/query db [(str "Select * from recipe where IdCocktail
+                        IN (SELECT IdCocktail from recipe where IdUser = '" IdUser1 "') and IdUser = '" IdUser2 "'")]))
+
+( user-intersection 2 1)
+
+(defn  user-union
+  "Unija recepta dva korisnika; tj unija broja recepta"
+  [IdUser1 IdUser2]
+  (sql/query db [(str "select COUNT(DISTINCT IdCocktail) from recipe where IdUser='" IdUser1 "' or IdUser = '" IdUser2 "'")]))
+
+
+(user-union 1 2)
+
+(defn Jaccard-similarity-coeficient
+ [IdUser1 IdUser2]
+  (/ (user-intersection IdUser1 IdUser2) (user-union IdUser1 IdUser2)))
+
+
+(jaccard-index 1 2)
+
+
+;; (defn similar-recepies
+;;   [IdCocktail]
+;;   (sql/query db [(str "Select IdCocktail ")]))
+
+
+
+
+
+
+
+
+
