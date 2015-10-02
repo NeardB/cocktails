@@ -20,6 +20,7 @@
       [:li [:a {:href "/top20"} "Top 20 cocktails"]]
       [:li [:a {:href "/search"} "Search"]]
       [:li [:a {:href "/addCocktail"} "Add recipe"]]
+       [:li [:a {:href "/recommendation"} "Recommendation"]]
       [:li [:a {:href "/login"} "Login"]]
       ]]
     ]

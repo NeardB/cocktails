@@ -1,5 +1,6 @@
 (ns cocktails.models.db
-  (:require [clojure.java.jdbc :as sql])
+  (:require [clojure.java.jdbc :as sql]
+            [clojure.string :as string])
   (:import java.sql.DriverManager))
 
 
@@ -28,9 +29,9 @@
   "Returns 10 ingredients best rated recepies from the database"
   []
    (sql/query db
-    ["SELECT ingredient FROM cocktails WHERE rating>9 LIMIT 10"]
-    ))
+    ["SELECT ingredient FROM cocktails WHERE rating>9 LIMIT 10"]))
 
+(list-ingredient)
 
 (defn login
   "Function wich checks whether the user exists"
@@ -48,7 +49,7 @@
       [ UserName Pass]))
 
 (defn users-list
-   "Returns users from the database"
+   "Returns all users from the database"
   []
     (sql/query db ["SELECT * FROM `users`"]))
 
@@ -56,12 +57,47 @@
 
 
 
-(defn user-recipes
-  "Returns recipes for specific user"
+(defn user-recipes-list
+  "Returns 10 best rated cocktail recipes for specific user"
   [IdUser]
-  (sql/query db [(str "select * from recipe WHERE IdUser = '" IdUser "'")]))
+  (sql/query db ["SELECT IdCocktail FROM recipe where IdUser like ? LIMIT 10" IdUser]))
 
-(user-recipes 1)
+(user-recipes-list 1)
+
+
+;; svi sastojci svih koktela odredjenog usera
+(defn ingrediant-list
+  [IdUser]
+  (let [ingrediant-list (user-recipes-list IdUser)]
+;;         (for [x ingrediant-list]
+;;           (:idcocktail x))
+
+      (sql/query db ["select ingredient,ingredient1,ingredient2,
+                   ingredient3, ingredient4 from cocktails WHERE
+                     IdCocktail in ("
+               (string/join "," (into []
+                    (for [x ingrediant-list] (str (:idcocktail x)))  )) ")"])))
+
+
+(defn cocktail-list
+  "Returns all cocktail IdCocktail from database"
+  []
+  (sql/query db ["SELECT IdCocktail FROM cocktails order by rating desc "]))
+
+(cocktail-list)
+
+(defn ingredient-cocktail-list
+  "Returns cocktail ingredient from database"
+  []
+  (sql/query db ["SELECT ingredient,ingredient1,ingredient2,ingredient3,
+                 ingredient4 from cocktails order by rating desc"]))
+
+(ingredient-cocktail-list)
+
+;; (let [ingrediant-list (user-recipes 2)]
+;;         (for [x ingrediant-list]
+;;           (:idcocktail x)))
+
 
 
 (defn Id-user-recipes
@@ -74,7 +110,8 @@
 (defn user-cocktails-ingredient
    "Returns list of ingredient for certain cocktail"
   [IdCocktail]
-  (sql/query db [(str "select ingredient,ingredient1,ingredient2,ingredient3, ingredient4 from cocktails WHERE IdCocktail = '" IdCocktail "'")]))
+  (sql/query db [(str "select ingredient,ingredient1,ingredient2,ingredient3,
+                      ingredient4 from cocktails WHERE IdCocktail = '" IdCocktail "'")]))
 
 
 (user-cocktails-ingredient 4)
@@ -92,33 +129,35 @@
 
 
 
-(defn user-intersection
-  "Function which checks similar recipe for User2 and User1; IdUser1-User2-mutually-recipes"
-  [IdUser1 IdUser2]
-  (sql/query db [(str "Select * from recipe where IdCocktail
-                        IN (SELECT IdCocktail from recipe where IdUser = '" IdUser1 "') and IdUser = '" IdUser2 "'")]))
+(defn similarity-coeficient
+  "Coefficient that determines which cocktails are similar and how similar. It returns -1 if there is not similarity. "
+  [IdUser]
+  (let [list-ingrediant1 (user-cocktails-ingredient1 IdUser)
+       list-ingrediant2 (user-cocktails-ingredient 1)]
 
-( user-intersection 2 1)
+    (for [list1 list-ingrediant1]
+      (for [list2 list-ingrediant2]
+        (cond
+         (=(:ingredient list1)(:ingredient list2)) 1/5
+         (and (=(:ingredient list1)(:ingredient list2)) (=(:ingredient1 list1)(:ingredient1 list2))) 2/5
+         (and (=(:ingredient list1)(:ingredient list2))
+              (=(:ingredient1 list1)(:ingredient1 list2))(=(:ingredient2 list1)(:ingredient2 list2))) 3/5
 
-(defn  user-union
-  "Unija recepta dva korisnika; tj unija broja recepta"
-  [IdUser1 IdUser2]
-  (sql/query db [(str "select COUNT(DISTINCT IdCocktail) from recipe where IdUser='" IdUser1 "' or IdUser = '" IdUser2 "'")]))
+          (and (=(:ingredient list1)(:ingredient list2)) (=(:ingredient1 list1)(:ingredient1 list2))
+               (=(:ingredient2 list1)(:ingredient2 list2)) (=(:ingredient3 list1)(:ingredient3 list2))) 4/5
+
+          (and (=(:ingredient list1)(:ingredient list2)) (=(:ingredient1 list1)(:ingredient1 list2))
+               (=(:ingredient2 list1)(:ingredient2 list2)) (=(:ingredient3 list1)(:ingredient3 list2))
+               (=(:ingredient4 list1)(:ingredient4 list2))) 1
+         :else -1)))))
+
+(similarity-coeficient 2)
+
+(frequencies  (similarity-coeficient 2))
 
 
-(user-union 1 2)
 
-(defn Jaccard-similarity-coeficient
- [IdUser1 IdUser2]
-  (/ (user-intersection IdUser1 IdUser2) (user-union IdUser1 IdUser2)))
-
-
-(jaccard-index 1 2)
-
-
-;; (defn similar-recepies
-;;   [IdCocktail]
-;;   (sql/query db [(str "Select IdCocktail ")]))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 

@@ -7,14 +7,12 @@
             [compojure.route :as route]
             ;;routes
             [cocktails.routes.home :refer [home-routes]]
-             [cocktails.routes.search :refer [search-routes]]
-;;             [cocktails.routes.contact :refer [contact-routes]]
+            [cocktails.routes.search :refer [search-routes]]
             [cocktails.routes.top20 :refer [top20-routes]]
-;;             [cocktails.routes.admin :refer [admin-routes]]
-;;             [cocktails.routes.addNew :refer [addNew-routes]]
-             [cocktails.routes.addCocktail :refer [addCocktail-routes]]
-             [cocktails.routes.login :refer [login-routes]]
-             [cocktails.routes.register :refer [register-routes]]
+            [cocktails.routes.addCocktail :refer [addCocktail-routes]]
+            [cocktails.routes.login :refer [login-routes]]
+            [cocktails.routes.register :refer [register-routes]]
+            [cocktails.routes.recommendation :refer [recommendation-routes]]
             ;;session
             [noir.session :as session]
             [ring.middleware.session.memory :refer [memory-store]]
@@ -32,12 +30,10 @@
    (handler/site
    (routes
       search-routes
-     ;;  contact-routes
+       recommendation-routes
        home-routes
        top20-routes
        addCocktail-routes
-;;        admin-routes
-
        login-routes
        register-routes
        app-routes
