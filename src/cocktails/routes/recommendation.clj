@@ -11,9 +11,6 @@
             ))
 
 
-
-
-
 (defn recommendation []
   (layout/common
     (shared/navbar)
@@ -22,14 +19,14 @@
    [:div.container
     [:div.row
      [:div.col-lg-8.col-lg-offset-2.col-md-10.col-md-offset-1
-;;     (let [all-locs (db/list-cocktails)]
-;;      [:div {:class "containerTable"}
-;;      [:h1 "Top 20 cocktails"]
-;;      [:table {:class "table"}
-;;       [:tr [:th "Name"] [:th "Rating"] [:th "Votes"] ]
-;;       (for [loc all-locs]
-;;         [:tr [:td (:name loc)] [:td (:rating loc)] [:td (:votes loc)]])]]
-;;       )
+    (let [all-locs (db/recommended-cocktail)]
+     [:div {:class "containerTable"}
+     [:h1 "Recommended cocktails"]
+     [:table {:class "table"}
+      [:tr [:th "Name"] [:th "Rating"] [:th "Votes"] [:th "Ingridient"] [:th "Ingridient"][:th "Ingridient"][:th "Ingridient"]]
+      (for [loc all-locs]
+        [:tr [:td (:name loc)] [:td (:rating loc)] [:td (:votes loc)][:td (:ingredient loc)][:td (:ingredient1 loc)][:td (:ingredient2 loc)] [:td (:ingredient3 loc)]])]]
+      )
 
       ]]]
 

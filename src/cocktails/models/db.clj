@@ -1,7 +1,9 @@
+
 (ns cocktails.models.db
   (:require [clojure.java.jdbc :as sql]
             [clojure.string :as string])
   (:import java.sql.DriverManager))
+
 
 
 (def db {:classname "org.sqlite.JDBC",
@@ -13,6 +15,7 @@
   []
     (sql/query db ["SELECT * FROM `cocktails` order by rating desc LIMIT 20"]))
 
+
 (defn save-cocktail [name ingredient ingredient1 ingredient2 rating text]
   (sql/insert! db
       :cocktails
@@ -20,18 +23,19 @@
       [ name ingredient ingredient1 ingredient2 rating text]))
 
 (defn select-specific-cocktail
-  "Returns records related to the input ingrediant"
+  "Returns records related to the selected ingrediant from combobox"
   [ingredient]
   (sql/query db  [(str "SELECT * FROM `cocktails` WHERE `ingredient` = '" ingredient "'")] :result-set-fn first))
 
 
 (defn list-ingredient
-  "Returns 10 ingredients best rated recepies from the database"
+  "Returns 10 ingredients best rated recepies from the database for the combobox on the page"
   []
    (sql/query db
     ["SELECT ingredient FROM cocktails WHERE rating>9 LIMIT 10"]))
 
 (list-ingredient)
+
 
 (defn login
   "Function wich checks whether the user exists"
@@ -53,30 +57,13 @@
   []
     (sql/query db ["SELECT * FROM `users`"]))
 
-
-
-
-
+(users-list)
 (defn user-recipes-list
   "Returns 10 best rated cocktail recipes for specific user"
   [IdUser]
   (sql/query db ["SELECT IdCocktail FROM recipe where IdUser like ? LIMIT 10" IdUser]))
 
 (user-recipes-list 1)
-
-
-;; svi sastojci svih koktela odredjenog usera
-(defn ingrediant-list
-  [IdUser]
-  (let [ingrediant-list (user-recipes-list IdUser)]
-;;         (for [x ingrediant-list]
-;;           (:idcocktail x))
-
-      (sql/query db ["select ingredient,ingredient1,ingredient2,
-                   ingredient3, ingredient4 from cocktails WHERE
-                     IdCocktail in ("
-               (string/join "," (into []
-                    (for [x ingrediant-list] (str (:idcocktail x)))  )) ")"])))
 
 
 (defn cocktail-list
@@ -86,83 +73,71 @@
 
 (cocktail-list)
 
+
 (defn ingredient-cocktail-list
   "Returns cocktail ingredient from database"
   []
-  (sql/query db ["SELECT ingredient,ingredient1,ingredient2,ingredient3,
-                 ingredient4 from cocktails order by rating desc"]))
+  (sql/query db ["SELECT * from cocktails order by rating desc"]))
 
 (ingredient-cocktail-list)
 
-;; (let [ingrediant-list (user-recipes 2)]
-;;         (for [x ingrediant-list]
-;;           (:idcocktail x)))
 
-
+(defn ingredient-cocktail-list1
+  "Returns cocktail ingredient from database"
+  [IdCocktail]
+  (sql/query db ["SELECT * from cocktails where IdCocktail = ?" IdCocktail]))
 
 (defn Id-user-recipes
   "Returns recipes for specific user"
   [IdUser]
-  (sql/query db [(str "select IdCocktail from recipe WHERE IdUser = '" IdUser "'")]))
+  (sql/query db ["select IdCocktail from recipe WHERE IdUser = ?" IdUser ]))
 
 (Id-user-recipes 1)
 
-(defn user-cocktails-ingredient
-   "Returns list of ingredient for certain cocktail"
-  [IdCocktail]
-  (sql/query db [(str "select ingredient,ingredient1,ingredient2,ingredient3,
-                      ingredient4 from cocktails WHERE IdCocktail = '" IdCocktail "'")]))
 
 
-(user-cocktails-ingredient 4)
-
-(defn user-cocktails-ingredient1
-   "Returns list of ingredient for all cocktails for certain User"
+(defn user-ingredient-cocktail-list
+  " All cocktails for one |User"
   [IdUser]
-  (sql/query db ["select ingredient,ingredient1,ingredient2,ingredient3, ingredient4 from cocktails WHERE IdCocktail in
-                      (select IdCocktail from recipe WHERE IdUser =?) order by Rating desc" IdUser]))
-
-(user-cocktails-ingredient1 1)
-(user-cocktails-ingredient1 2)
-
-
-
+  (sql/query db ["select * from  recipe where IdUser =?" IdUser]))
 
 
 (defn similarity-coeficient
-  "Coefficient that determines which cocktails are similar and how similar. It returns -1 if there is not similarity. "
+"Coefficient that determines which cocktails are similar and how similar. It returns -1 if there is not similarity,
+  and returns 1 if they are complitlly similar"
   [IdUser]
-  (let [list-ingrediant1 (user-cocktails-ingredient1 IdUser)
-       list-ingrediant2 (user-cocktails-ingredient 1)]
-
+  (let [list-ingrediant1 (user-ingredient-cocktail-list IdUser)
+       list-ingrediant2 (ingredient-cocktail-list )]
+    (frequencies(flatten
     (for [list1 list-ingrediant1]
       (for [list2 list-ingrediant2]
+        (let [x list-ingrediant2](str (:idcocktail x))
         (cond
          (=(:ingredient list1)(:ingredient list2)) 1/5
-         (and (=(:ingredient list1)(:ingredient list2)) (=(:ingredient1 list1)(:ingredient1 list2))) 2/5
-         (and (=(:ingredient list1)(:ingredient list2))
+         (or (=(:ingredient list1)(:ingredient list2)) (=(:ingredient1 list1)(:ingredient1 list2))) 2/5
+         (or (=(:ingredient list1)(:ingredient list2))
               (=(:ingredient1 list1)(:ingredient1 list2))(=(:ingredient2 list1)(:ingredient2 list2))) 3/5
 
-          (and (=(:ingredient list1)(:ingredient list2)) (=(:ingredient1 list1)(:ingredient1 list2))
+          (or (=(:ingredient list1)(:ingredient list2)) (=(:ingredient1 list1)(:ingredient1 list2))
                (=(:ingredient2 list1)(:ingredient2 list2)) (=(:ingredient3 list1)(:ingredient3 list2))) 4/5
 
           (and (=(:ingredient list1)(:ingredient list2)) (=(:ingredient1 list1)(:ingredient1 list2))
                (=(:ingredient2 list1)(:ingredient2 list2)) (=(:ingredient3 list1)(:ingredient3 list2))
-               (=(:ingredient4 list1)(:ingredient4 list2))) 1
-         :else -1)))))
+               (=(:ingredient4 list1)(:ingredient4 list2)) (=(:ingredient5 list1)(:ingredient5 list2))) 1
+         :else -1))  ))))))
 
-(similarity-coeficient 2)
-
-(frequencies  (similarity-coeficient 2))
+(similarity-coeficient 9)
 
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
-
-
+(defn recommended-cocktail
+  "Returns 10 most similar cocktail from database to user"
+  [IdUser]
+  (let [similar-cocktail-list (similarity-coeficient IdUser)]
+  (sql/query db ["select * from cocktail where IdCocktail in  ("
+               (string/join "," (into [] (for [x similar-cocktail-list] (str (:idcocktail x)))))")
+               and MovieID not in ( select MovieID from ratings where CustomerID = ? )
+               order by Rating desc limit 10"])))
 
 
 

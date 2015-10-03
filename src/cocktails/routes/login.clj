@@ -53,9 +53,7 @@
 
  (POST "/login"
        [UserName Pass]
-      ;; (:session Id)
-      ;; (println (str "Session: " (:session Id)))
-       (let [countUser (db/login UserName Pass)]
+        (let [countUser (db/login UserName Pass)]
        (if (> (:total countUser) 0)
          (top20/top20)
          (search/search))))
