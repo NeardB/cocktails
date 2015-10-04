@@ -136,8 +136,7 @@
   (let [similar-cocktail-list (similarity-coeficient IdUser)]
   (sql/query db ["select * from cocktail where IdCocktail in  ("
                (string/join "," (into [] (for [x similar-cocktail-list] (str (:idcocktail x)))))")
-               and MovieID not in ( select MovieID from ratings where CustomerID = ? )
-               order by Rating desc limit 10"])))
+                order by Rating desc limit 10"])))
 
 
 
